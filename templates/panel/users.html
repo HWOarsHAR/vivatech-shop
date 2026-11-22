@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block content %}<h1>Пользователи</h1>{% include "panel/_nav.html" %}
+<table class="table"><thead><tr><th>ID</th><th>Имя</th><th>Email / телефон</th><th>Роль</th><th>Регистрация</th><th>Последний вход</th><th></th></tr></thead>
+{% for u in users %}<tr><td>{{ u.id }}</td><td>{{ u.name }}</td><td>{{ u.email|default:"—" }}<br>{{ u.phone|default:"—" }}</td><td>{{ u.get_role_display }}</td><td>{{ u.created_at|date:"d.m.Y H:i" }}</td><td>{{ u.last_login|date:"d.m.Y H:i"|default:"—" }}</td>
+<td>{% if u.id != current_user.id %}<form method="post" action="{% url 'panel_user_action' u.id %}" class="inline">{% csrf_token %}
+ {% if u.role == 'user' %}<button name="act" value="admin" class="link">Сделать админом</button>{% else %}<button name="act" value="user" class="link">Снять админа</button>{% endif %}
+ <button name="act" value="delete" class="link danger" onclick="return confirm('Удалить пользователя?')">Удалить</button></form>{% endif %}</td></tr>{% endfor %}</table>{% endblock %}

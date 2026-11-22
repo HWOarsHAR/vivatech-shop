@@ -1,0 +1,15 @@
+# Apache Bench (ab). Замените адрес на адрес вашего сайта (со слэшем в конце!).
+# Windows: ab.exe лежит в папке bin архива Apache (Apache Lounge) — запускайте из этой папки.
+
+# 1. Базовый тест: 100 запросов, 10 одновременно
+ab -n 100 -c 10 https://ВАШ-САЙТ/
+
+# 2. Стресс: 100 запросов, 50 одновременно
+ab -n 100 -c 50 https://ВАШ-САЙТ/
+
+# 3. Страница товара и API поиска (по желанию)
+ab -n 100 -c 10 https://ВАШ-САЙТ/product/1/
+ab -n 100 -c 10 "https://ВАШ-САЙТ/api/search?q=nova"
+
+# Что записать из вывода: Requests per second, Time per request (mean),
+# 95% в блоке Percentage of the requests served within a certain time, Failed requests.

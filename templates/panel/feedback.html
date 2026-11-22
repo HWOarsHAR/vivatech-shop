@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}<h1>Модерация отзывов</h1>{% include "panel/_nav.html" %}
+<p>Фильтр: <a href="?">все</a>{% for k, v in statuses %} · <a href="?status={{ k }}">{{ v }}</a>{% endfor %}</p>
+<table class="table"><thead><tr><th>Дата</th><th>Пользователь</th><th>Тема / сообщение</th><th>Оценка</th><th>Статус</th></tr></thead>
+{% for f in items %}<tr><td>{{ f.created_at|date:"d.m.Y H:i" }}</td><td>{{ f.user.name }}<br><span class="muted">{{ f.user.email }}</span></td>
+<td><b>{{ f.subject }}</b><br>{{ f.message|linebreaksbr }}</td><td>{{ f.rating|default:"—" }}</td>
+<td><form method="post" action="{% url 'panel_feedback_action' f.id %}" class="inline">{% csrf_token %}
+<select name="status" onchange="this.form.submit()">{% for k, v in statuses %}<option value="{{ k }}" {% if k == f.status %}selected{% endif %}>{{ v }}</option>{% endfor %}</select>
+<button name="act" value="delete" class="link danger" onclick="return confirm('Удалить?')">Удалить</button></form></td></tr>
+{% empty %}<tr><td colspan="5">Нет обращений</td></tr>{% endfor %}</table>{% endblock %}

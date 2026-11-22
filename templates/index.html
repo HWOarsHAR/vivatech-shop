@@ -1,0 +1,31 @@
+{% extends "base.html" %}{% load static %}
+{% block content %}
+{# ===== Слайдер (Задание 7): чистый CSS + JS, 3 слайда ===== #}
+<section class="slider" id="slider" aria-label="Акции">
+  <div class="slides">
+    <div class="slide s1"><div><h2>Смартфоны Nova X1</h2><p>Флагманская камера и AMOLED-экран</p><a class="btn" href="?category=smartphones">Смотреть</a></div> <img class="slide-img" src="{% static 'img/novax1pro.webp' %}" alt="Смартфоны"></div>
+    <div class="slide s2"><div><h2>Ноутбуки Orbit Book</h2><p>Лёгкие, мощные, до 14 часов работы</p><a class="btn" href="?category=laptops">Смотреть</a></div> <img class="slide-img" src="{% static 'img/orbitlaptop.webp' %}" alt="Ноутбуки"></div>
+    <div class="slide s3"><div><h2>Аксессуары Pulse</h2><p>Наушники, зарядки и умные часы</p><a class="btn" href="?category=accessories">Смотреть</a></div> <img class="slide-img" src="{% static 'img/headphones.webp' %}" alt="Аксессуары"></div>
+  </div>
+  <button class="arrow prev" aria-label="Назад">‹</button><button class="arrow next" aria-label="Вперёд">›</button>
+  <div class="dots"></div>
+</section>
+
+<div class="toolbar">
+  <h1>{% if cat %}Категория: {{ cat }}{% else %}Каталог{% endif %}</h1>
+  <form method="get" class="sort">
+    {% if cat %}<input type="hidden" name="category" value="{{ cat }}">{% endif %}
+    <label>Сортировка
+      <select name="sort" onchange="this.form.submit()">
+        {% for key, v in sorts.items %}<option value="{{ key }}" {% if key == sort %}selected{% endif %}>{{ v.1 }}</option>{% endfor %}
+      </select></label>
+  </form>
+</div>
+<div class="grid">{% for p in page %}{% include "_card.html" %}{% empty %}<p>Товаров нет.</p>{% endfor %}</div>
+<div class="pager">
+  {% if page.has_previous %}<a href="?page={{ page.previous_page_number }}&sort={{ sort }}{% if cat %}&category={{ cat }}{% endif %}">← Назад</a>{% endif %}
+  <span>Стр. {{ page.number }} из {{ page.paginator.num_pages }}</span>
+  {% if page.has_next %}<a href="?page={{ page.next_page_number }}&sort={{ sort }}{% if cat %}&category={{ cat }}{% endif %}">Вперёд →</a>{% endif %}
+</div>
+{% if viewed %}<h2>Вы смотрели</h2><div class="grid">{% for p in viewed %}{% include "_card.html" %}{% endfor %}</div>{% endif %}
+{% endblock %}

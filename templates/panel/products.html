@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block content %}<h1>Товары</h1>{% include "panel/_nav.html" %}
+<form method="get" class="toolbar">
+  <input name="q" value="{{ q }}" placeholder="Название / алиас">
+  <select name="sort">{% for k, v in fields.items %}<option value="{{ k }}" {% if k == sort %}selected{% endif %}>Сортировать: {{ v }}</option>{% endfor %}</select>
+  <select name="dir"><option value="asc" {% if dir == 'asc' %}selected{% endif %}>↑ по возрастанию</option><option value="desc" {% if dir == 'desc' %}selected{% endif %}>↓ по убыванию</option></select>
+  <button class="btn">Применить</button> <a class="btn" href="{% url 'panel_product_new' %}">+ Добавить товар</a>
+</form>
+<table class="table"><thead><tr><th>ID</th><th>Название</th><th>Производитель</th><th>Цена</th><th>Наличие</th><th></th></tr></thead>
+{% for p in products %}<tr><td>{{ p.id }}</td><td>{{ p.name }}</td><td>{{ p.manufacturer|default:"—" }}</td><td>{{ p.price }}</td><td>{{ p.available|yesno:"да,нет" }}</td>
+<td><a href="{% url 'panel_product_edit' p.id %}">Изменить</a>
+<form method="post" action="{% url 'panel_product_delete' p.id %}" class="inline" onsubmit="return confirm('Удалить товар?')">{% csrf_token %}<button class="link danger">Удалить</button></form></td></tr>
+{% empty %}<tr><td colspan="6">Нет товаров</td></tr>{% endfor %}</table>{% endblock %}

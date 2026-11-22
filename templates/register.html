@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+<h1>Регистрация</h1>
+{# Классическая валидация: атрибуты HTML5 + validate.js; novalidate отключает стандартные «пузырьки» браузера #}
+<form class="form js-validate js-api" novalidate data-api="/api/register" data-method="POST" data-redirect="/login/?registered=1">
+  <div class="field"><label for="name">Имя *</label>
+    <input id="name" name="name" type="text" required minlength="2" maxlength="100" autocomplete="name"
+           pattern="[A-Za-zА-Яа-яЁё\s\-]+" data-msg="Только буквы, пробел и дефис (от 2 символов)"><div class="error"></div></div>
+  <div class="field"><label for="email">Email (необязательно, если указан телефон)</label>
+    <input id="email" name="email" type="email" maxlength="254" autocomplete="email"
+           pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+" data-msg="Введите корректный email" data-oneof="#phone"><div class="error"></div></div>
+  <div class="field"><label for="phone">Телефон (необязательно, если указан email)</label>
+    <input id="phone" name="phone" type="tel" maxlength="30" autocomplete="tel"
+           pattern="\\D*(\\d\\D*){10,11}" data-msg="Введите номер телефона" data-oneof="#email"><div class="error"></div></div>
+  <div class="field"><label for="password">Пароль * (минимум 8 символов)</label>
+    <input id="password" name="password" type="password" required minlength="8" maxlength="72" autocomplete="new-password"><div class="error"></div></div>
+  <div class="field"><label for="confirm_password">Повторите пароль *</label>
+    <input id="confirm_password" name="confirm_password" type="password" required minlength="8" maxlength="72"
+           data-match="#password" autocomplete="new-password"><div class="error"></div></div>
+  {% include "_consent.html" with kind="pd" %}
+  {% include "_consent.html" with kind="terms" %}
+  {% include "_consent.html" with kind="ads" %}
+  <div class="form-error"></div>
+  <button class="btn" type="submit">Зарегистрироваться</button>
+</form>
+{% endblock %}

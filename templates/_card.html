@@ -1,0 +1,10 @@
+<article class="card">
+  <a href="{% url 'product' p.id %}"><img src="{{ p.image_url }}" alt="{{ p.name }}" loading="lazy"></a>
+  <h3><a href="{% url 'product' p.id %}">{{ p.name }}</a></h3>
+  <p class="muted">{{ p.short_description }}</p>
+  <div class="row"><b>{{ p.price|floatformat:"-2" }} ₽</b>
+    {% if p.available %}
+    <button class="btn" data-add-to-cart data-id="{{ p.id }}" data-name="{{ p.name }}"
+            data-price="{{ p.price|stringformat:'.2f' }}" data-image="{{ p.image_url }}">В корзину</button>
+    {% else %}<span class="muted">Нет в наличии</span>{% endif %}</div>
+</article>

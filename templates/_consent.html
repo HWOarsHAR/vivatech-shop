@@ -1,0 +1,22 @@
+{% comment %}
+Чекбокс согласия. Использование: {% include "_consent.html" with kind="pd" %}
+kind: pd - обработка ПДн (обязательно) | third - передача третьим лицам (обязательно при заказе)
+      ads - рекламная рассылка (необязательно) | terms - пользовательское соглашение/оферта (обязательно)
+Все чекбоксы НЕ отмечены по умолчанию; autocomplete="off" не даёт браузеру восстановить отметку.
+{% endcomment %}
+<div class="field check"><label>
+{% if kind == "pd" %}
+  <input type="checkbox" name="consent" autocomplete="off" required data-msg="Необходимо согласие на обработку персональных данных">
+  <span>Я даю согласие на обработку моих персональных данных на условиях
+    <a href="{% url 'privacy' %}" target="_blank" rel="noopener">Политики обработки персональных данных</a> *</span>
+{% elif kind == "third" %}
+  <input type="checkbox" name="consent_third" autocomplete="off" required data-msg="Необходимо согласие на передачу данных для исполнения заказа">
+  <span>Я даю отдельное согласие на передачу моих персональных данных третьим лицам (службам доставки, платёжным сервисам) для исполнения заказа *</span>
+{% elif kind == "ads" %}
+  <input type="checkbox" name="ads" autocomplete="off">
+  <span>Я согласен(на) получать рекламные и информационные рассылки по e-mail и SMS. Согласие можно отозвать в любой момент (необязательно)</span>
+{% elif kind == "terms" %}
+  <input type="checkbox" name="terms" autocomplete="off" required data-msg="Необходимо принять условия Пользовательского соглашения">
+  <span>Я принимаю условия <a href="{% url 'terms' %}" target="_blank" rel="noopener">Пользовательского соглашения и публичной оферты</a> *</span>
+{% endif %}
+</label><div class="error"></div></div>

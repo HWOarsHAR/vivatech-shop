@@ -1,0 +1,31 @@
+{% extends "base.html" %}{% load static %}
+{% block title %}Личный кабинет{% endblock %}
+{% block content %}
+<h1>Личный кабинет</h1>
+<div class="tabs"><button data-tab="info" class="active">Профиль</button><button data-tab="pass">Пароль</button>
+  <button data-tab="fb">Мои обращения</button><button data-tab="orders">Заказы</button><button data-tab="log">Журнал действий</button></div>
+
+<section id="tab-info" class="tab">
+  <form class="form js-validate js-api" novalidate data-api="/api/profile" data-method="PUT" data-success="Профиль обновлён">
+    <div class="field"><label for="p-name">Имя</label><input id="p-name" name="name" required minlength="2" maxlength="100"><div class="error"></div></div>
+    <div class="field"><label for="p-email">Email (или телефон)</label><input id="p-email" name="email" type="email" pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+" data-oneof="#p-phone"><div class="error"></div></div>
+    <div class="field"><label for="p-phone">Телефон</label><input id="p-phone" name="phone" type="tel" maxlength="30" pattern="\\D*(\\d\\D*){10,11}" data-oneof="#p-email"><div class="error"></div></div>
+    <p class="muted" id="p-meta"></p>
+    <div class="form-error"></div><div class="form-ok"></div>
+    <button class="btn">Сохранить</button>
+  </form>
+</section>
+<section id="tab-pass" class="tab" hidden>
+  <form class="form js-validate js-api" novalidate data-api="/api/profile/password" data-method="POST" data-reset data-success="Пароль изменён">
+    <div class="field"><label for="old_password">Текущий пароль</label><input id="old_password" name="old_password" type="password" required><div class="error"></div></div>
+    <div class="field"><label for="new_password">Новый пароль (≥ 8 символов)</label><input id="new_password" name="new_password" type="password" required minlength="8" maxlength="72"><div class="error"></div></div>
+    <div class="field"><label for="confirm_password">Повторите новый пароль</label><input id="confirm_password" name="confirm_password" type="password" required minlength="8" data-match="#new_password"><div class="error"></div></div>
+    <div class="form-error"></div><div class="form-ok"></div>
+    <button class="btn">Сменить пароль</button>
+  </form>
+</section>
+<section id="tab-fb" class="tab" hidden><div id="fb-list">Загрузка…</div><p><a href="{% url 'feedback' %}">Написать новое</a></p></section>
+<section id="tab-orders" class="tab" hidden><div id="orders-list">Загрузка…</div></section>
+<section id="tab-log" class="tab" hidden><div id="log-list">Загрузка…</div></section>
+{% endblock %}
+{% block scripts %}<script src="{% static 'js/profile.js' %}"></script>{% endblock %}

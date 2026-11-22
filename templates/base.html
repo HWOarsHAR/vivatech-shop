@@ -1,0 +1,55 @@
+{% load static %}<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}VivaTech — магазин электроники{% endblock %}</title>
+  <meta name="description" content="{% block meta_desc %}Интернет-магазин электроники VivoTech{% endblock %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<header class="header">
+  <div class="container bar">
+    <a class="logo" href="{% url 'index' %}">Viva<b>Tech</b></a>
+    <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">☰ Меню</button>
+    <nav class="nav" id="main-nav" data-open="false">
+      <a href="{% url 'index' %}">Каталог</a>
+      <a href="{% url 'feedback' %}">Обратная связь</a>
+      {% for c in menu_categories %}<a class="sub" href="{% url 'index' %}?category={{ c.alias }}">{{ c.name }}</a>{% endfor %}
+    </nav>
+    {# Форма поиска (3.4): GET /search/?q=...; подсказки подгружаются через fetch из /api/search #}
+    <form class="search js-validate" action="{% url 'search' %}" method="get" novalidate autocomplete="off">
+      <div class="field">
+        <input type="search" name="q" id="q" required minlength="2" maxlength="100"
+               placeholder="Поиск товаров…" data-live-search>
+        <div class="error"></div>
+      </div>
+      <button>Найти</button>
+      <div class="live" id="live-results" hidden></div>
+    </form>
+    <div class="user">
+      <a href="{% url 'cart' %}" class="cart-link">🛒 <span id="cart-count">0</span></a>
+      {% if current_user %}
+        {% if current_user.is_admin %}<a href="{% url 'panel' %}">Панель</a>{% endif %}
+        <a href="{% url 'profile' %}">{{ current_user.name }}</a>
+        <button type="button" id="logout-btn" class="link">Выйти</button>
+      {% else %}
+        <a href="{% url 'login' %}">Вход</a> <a href="{% url 'register' %}">Регистрация</a>
+      {% endif %}
+    </div>
+  </div>
+</header>
+<main class="container">
+  {% for m in messages %}<div class="alert {{ m.tags }}">{{ m }}</div>{% endfor %}
+  {% block content %}{% endblock %}
+</main>
+<footer class="footer"><div class="container">© VivaTech ·
+  <a href="{% url 'privacy' %}" target="_blank" rel="noopener">Политика обработки ПДн</a> ·
+  <a href="{% url 'terms' %}" target="_blank" rel="noopener">Пользовательское соглашение</a></div></footer>
+<script src="{% static 'js/api.js' %}"></script>
+<script src="{% static 'js/validate.js' %}"></script>
+<script src="{% static 'js/cart.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+<h1>Вход</h1>
+<div id="reg-ok" class="alert success" hidden>Регистрация прошла успешно. Войдите в аккаунт.</div>
+<form class="form js-validate js-api" novalidate data-api="/api/login" data-method="POST"
+      data-redirect="{{ next }}" data-after="login">
+  <div class="field"><label for="login">Email или телефон</label>
+    <input id="login" name="login" type="text" required autocomplete="username"
+           data-msg="Введите email или телефон"><div class="error"></div></div>
+  <div class="field"><label for="password">Пароль</label>
+    <input id="password" name="password" type="password" required autocomplete="current-password"><div class="error"></div></div>
+  <div class="form-error"></div>
+  <button class="btn" type="submit">Войти</button>
+  <p class="muted">Нет аккаунта? <a href="{% url 'register' %}">Регистрация</a></p>
+</form>
+{% endblock %}

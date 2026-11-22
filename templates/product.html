@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ p.meta_title|default:p.name }}{% endblock %}
+{% block meta_desc %}{{ p.meta_description|default:p.short_description }}{% endblock %}
+{% block content %}
+<div class="product">
+  <div><img class="big" src="{{ p.image_url }}" alt="{{ p.name }}">
+    <div class="thumbs">{% for im in p.images.all %}<img src="{{ im.image }}" alt="{{ im.title }}" title="{{ im.title }}">{% endfor %}</div></div>
+  <div>
+    <h1>{{ p.name }}</h1>
+    {% if p.manufacturer %}<p class="muted">Производитель: {{ p.manufacturer.name }}</p>{% endif %}
+    <p class="price">{{ p.price|floatformat:"-2" }} ₽</p>
+    <p>{{ p.description|linebreaksbr }}</p>
+    {% if p.available %}<button class="btn" data-add-to-cart data-id="{{ p.id }}" data-name="{{ p.name }}"
+       data-price="{{ p.price|stringformat:'.2f' }}" data-image="{{ p.image_url }}">В корзину</button>
+    {% else %}<p class="muted">Нет в наличии</p>{% endif %}
+    {% if p.properties.all %}<h3>Характеристики</h3>
+    <table class="table">{% for pr in p.properties.all %}<tr><td>{{ pr.property_name }}</td><td>{{ pr.property_value }}
+      {% if pr.property_price %}<span class="muted">(+{{ pr.property_price|floatformat:"-2" }} ₽)</span>{% endif %}</td></tr>{% endfor %}</table>{% endif %}
+  </div>
+</div>
+{% endblock %}

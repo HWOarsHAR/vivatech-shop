@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}<h1>{% if obj %}Редактирование: {{ obj.name }}{% else %}Новый товар{% endif %}</h1>{% include "panel/_nav.html" %}
+<form method="post" class="form wide js-validate" novalidate>{% csrf_token %}
+  {% for f in form %}<div class="field"><label for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}<div class="error">{{ f.errors|join:", " }}</div></div>{% endfor %}
+  <h3>Свойства</h3>{{ props.management_form }}
+  {% for fm in props %}<div class="inline-row">{{ fm.id }}{{ fm.property_name }}{{ fm.property_value }}{{ fm.property_price }}{% if obj %}<label>{{ fm.DELETE }} удалить</label>{% endif %}<span class="error">{{ fm.errors.values|join:" " }}</span></div>{% endfor %}
+  <h3>Изображения</h3>{{ imgs.management_form }}
+  {% for fm in imgs %}<div class="inline-row">{{ fm.id }}{{ fm.image }}{{ fm.title }}{% if obj %}<label>{{ fm.DELETE }} удалить</label>{% endif %}<span class="error">{{ fm.errors.values|join:" " }}</span></div>{% endfor %}
+  <button class="btn">Сохранить</button> <a href="{% url 'panel_products' %}">Отмена</a>
+</form>{% endblock %}

@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block content %}<h1>Админ-панель</h1>{% include "panel/_nav.html" %}
+<div class="grid"><div class="card"><h3>Товаров</h3><b>{{ stats.products }}</b></div>
+<div class="card"><h3>Пользователей</h3><b>{{ stats.users }}</b></div>
+<div class="card"><h3>Новых обращений</h3><b>{{ stats.new_feedback }}</b></div></div>{% endblock %}

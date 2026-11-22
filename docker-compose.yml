@@ -1,0 +1,29 @@
+# Локальная проверка «как на сервере»: docker compose up --build  ->  http://localhost:8000
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: products_db
+      POSTGRES_USER: shop_user
+      POSTGRES_PASSWORD: shop_password
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shop_user -d products_db"]
+      interval: 5s
+      retries: 20
+  web:
+    build: .
+    depends_on:
+      db: {condition: service_healthy}
+    environment:
+      DJANGO_SECRET_KEY: local-compose-secret-key-0123456789-0123456789-0123456789
+      DB_NAME: products_db
+      DB_USER: shop_user
+      DB_PASSWORD: shop_password
+      DB_HOST: db
+      ADMIN_EMAIL: admin@example.com
+      ADMIN_PASSWORD: Admin-12345
+      FORCE_HTTPS: "0"
+    ports: ["8000:8000"]
+volumes:
+  pgdata:
