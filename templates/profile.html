@@ -9,7 +9,7 @@
   <form class="form js-validate js-api" novalidate data-api="/api/profile" data-method="PUT" data-success="Профиль обновлён">
     <div class="field"><label for="p-name">Имя</label><input id="p-name" name="name" required minlength="2" maxlength="100"><div class="error"></div></div>
     <div class="field"><label for="p-email">Email (или телефон)</label><input id="p-email" name="email" type="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" data-oneof="#p-phone"><div class="error"></div></div>
-    <div class="field"><label for="p-phone">Телефон</label><input id="p-phone" name="phone" type="tel" maxlength="30" pattern="\\D*(\\d\\D*){10,11}" data-oneof="#p-email"><div class="error"></div></div>
+    <div class="field"><label for="p-phone">Телефон</label><input id="p-phone" name="phone" type="tel" maxlength="30" pattern="\D*(\d\D*){10,11}" data-oneof="#p-email"><div class="error"></div></div>
     <p class="muted" id="p-meta"></p>
     <div class="form-error"></div><div class="form-ok"></div>
     <button class="btn">Сохранить</button>
