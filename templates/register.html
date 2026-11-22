@@ -9,7 +9,7 @@
            pattern="[A-Za-zА-Яа-яЁё\s\-]+" data-msg="Только буквы, пробел и дефис (от 2 символов)"><div class="error"></div></div>
   <div class="field"><label for="email">Email (необязательно, если указан телефон)</label>
     <input id="email" name="email" type="email" maxlength="254" autocomplete="email"
-           pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+" data-msg="Введите корректный email" data-oneof="#phone"><div class="error"></div></div>
+           pattern="[^@\s]+@[^@\s]+\.[^@\s]+" data-msg="Введите корректный email" data-oneof="#phone"><div class="error"></div></div>
   <div class="field"><label for="phone">Телефон (необязательно, если указан email)</label>
     <input id="phone" name="phone" type="tel" maxlength="30" autocomplete="tel"
            pattern="\\D*(\\d\\D*){10,11}" data-msg="Введите номер телефона" data-oneof="#email"><div class="error"></div></div>
